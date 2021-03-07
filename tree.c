@@ -25,18 +25,6 @@ static char *hversion="\t\t tree v1.6.0 %s 1996 - 2011 by Steve Baker and Thomas
 		      "\t\t Charsets / OS/2 support %s 2001 by Kyosuke Tokoro\n";
 
 
-/* Externs */
-/* hash.c */
-extern struct xtable *gtable[256], *utable[256];
-extern struct inotable *itable[256];
-/* color.c */
-extern bool colorize, ansilines, linktargetcolor;
-extern char *leftcode, *rightcode, *endcode;
-extern const struct linedraw *linedraw;
-
-
-int main(int argc, char **argv)
-{
   char **dirname = NULL;
   int i,j=0,n,p,q,dtotal,ftotal,colored = FALSE;
   struct stat st;
