@@ -24,38 +24,6 @@ static char *hversion="\t\t tree v1.6.0 %s 1996 - 2011 by Steve Baker and Thomas
 		      "\t\t HTML output hacked and copyleft %s 1998 by Francesc Rocher <br>\n"
 		      "\t\t Charsets / OS/2 support %s 2001 by Kyosuke Tokoro\n";
 
-/* Globals */
-bool dflag, lflag, pflag, sflag, Fflag, aflag, fflag, uflag, gflag;
-bool qflag, Nflag, Qflag, Dflag, inodeflag, devflag, hflag, Rflag;
-bool Hflag, siflag, cflag, Xflag, duflag, pruneflag;
-bool noindent, force_color, nocolor, xdev, noreport, nolinks, flimit, dirsfirst, nosort;
-char *pattern = NULL, *ipattern = NULL, *host = NULL, *title = "Directory Tree", *sp = " ";
-char *timefmt = NULL;
-const char *charset = NULL;
-
-off_t (*listdir)(char *, int *, int *, u_long, dev_t) = unix_listdir;
-int (*cmpfunc)() = alnumsort;
-
-char *sLevel, *curdir, *outfilename = NULL;
-FILE *outfile;
-int Level, *dirs, maxdirs;
-
-int mb_cur_max;
-
-#ifdef __EMX__
-const u_short ifmt[]={ FILE_ARCHIVED, FILE_DIRECTORY, FILE_SYSTEM, FILE_HIDDEN, FILE_READONLY, 0};
-#else
-  #ifdef S_ISPORT
-  const u_int ifmt[] = {S_IFREG, S_IFDIR, S_IFLNK, S_IFCHR, S_IFBLK, S_IFSOCK, S_IFIFO, S_ISDOOR, S_ISPORT, 0};
-  const char fmt[] = "-dlcbspDP?";
-  const char *ftype[] = {"file", "directory", "link", "char", "block", "socket", "fifo", "door", "port", "unknown", NULL};
-  #else
-  const u_int ifmt[] = {S_IFREG, S_IFDIR, S_IFLNK, S_IFCHR, S_IFBLK, S_IFSOCK, S_IFIFO, 0};
-  const char fmt[] = "-dlcbsp?";
-  const char *ftype[] = {"file", "directory", "link", "char", "block", "socket", "fifo", "unknown", NULL};
-  #endif
-#endif
-
 
 /* Externs */
 /* hash.c */
