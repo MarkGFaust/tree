@@ -76,6 +76,11 @@ int main(int argc, char **argv)
   off_t size = 0;
   mode_t mt;
 
+  
+  /*
+   * A benign change just to demonstrate merge
+   */
+  
   q = p = dtotal = ftotal = 0;
   aflag = dflag = fflag = lflag = pflag = sflag = Fflag = uflag = gflag = FALSE;
   Dflag = qflag = Nflag = Qflag = Rflag = hflag = Hflag = siflag = cflag = FALSE;
@@ -422,55 +427,6 @@ int main(int argc, char **argv)
     fprintf(outfile,"?>\n<tree>\n");
   }
 
-  if (dirname) {
-    for(colored=i=0;dirname[i];i++,colored=0) {
-      if (fflag) {
-	do {
-	  j=strlen(dirname[i]);
-	  if (j > 1 && dirname[i][j-1] == '/') dirname[i][--j] = 0;
-	} while (j > 1 && dirname[i][j-1] == '/');
-      }
-      if ((n = lstat(dirname[i],&st)) >= 0) {
-	saveino(st.st_ino, st.st_dev);
-	if (colorize) colored = color(st.st_mode,dirname[i],n<0,FALSE);
-	size += st.st_size;
-      }
-      if (Xflag) {
-	mt = st.st_mode & S_IFMT;
-	for(j=0;ifmt[j];j++)
-	  if (ifmt[j] == mt) break;
-	fprintf(outfile,"  <%s", ftype[j]);
-	if (mt == S_IFDIR) {
-	  fprintf(outfile, " name=\"%s\"", dirname[i]);
-	}
-	fputc('>',outfile);
-	if (mt != S_IFDIR) fprintf(outfile,"%s", dirname[i]);
-      } else if (!Hflag) printit(dirname[i]);
-      if (colored) fprintf(outfile,"%s",endcode);
-      if (!Hflag) size += listdir(dirname[i],&dtotal,&ftotal,0,0);
-      else {
-	if (chdir(dirname[i])) {
-	  fprintf(outfile,"%s [error opening dir]\n",dirname[i]);
-	  exit(1);
-	} else {
-	  size += listdir(".",&dtotal,&ftotal,0,0);
-	  (void) chdir(curdir);
-	}
-      }
-      if (Xflag) fprintf(outfile,"  </%s>\n",ftype[j]);
-    }
-  } else {
-    if ((n = lstat(".",&st)) >= 0) {
-      saveino(st.st_ino, st.st_dev);
-      if (colorize) colored = color(st.st_mode,".",n<0,FALSE);
-      size = st.st_size;
-    }
-    if (Xflag) fprintf(outfile,"  <directory name=\".\">");
-    else if (!Hflag) fprintf(outfile,".");
-    if (colored) fprintf(outfile,"%s",endcode);
-    size += listdir(".",&dtotal,&ftotal,0,0);
-    if (Xflag) fprintf(outfile,"  </directory>\n");
-  }
 
   if (Hflag)
     fprintf(outfile,"\t<br><br>\n\t</p>\n\t<p>\n");
