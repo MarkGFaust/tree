@@ -1,0 +1,5 @@
+# ignore object files and archives
+*.[oa]
+
+# ignore shared objects
+*.so
